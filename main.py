@@ -52,15 +52,12 @@ class Kolcsonzes:
         self.bicikli.display_info()
         print(f"Kölcsönzés időpontja: {self.idopont}")
 
-# Példa használatra
+#adatfeltöltés és listázás
 orszaguti_bicikli = OrszagutiBicikli(tipus="Országúti", ar=800, allapot="Új")
 hegyi_bicikli = HegyiBicikli(tipus="Hegyi", ar=1000, allapot="Használt")
-
 kolcsonzo = Kolcsonzo(nev="Kerékpár kft.")
 kolcsonzo.add_bicikli(orszaguti_bicikli)
 kolcsonzo.add_bicikli(hegyi_bicikli)
-
 kolcsonzo.display_info()
-
 kolcsonzes = Kolcsonzes(kolcsonzo=kolcsonzo, bicikli=orszaguti_bicikli, idopont="2023-12-10 14:30")
 kolcsonzes.display_info()
