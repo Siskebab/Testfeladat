@@ -1,61 +1,92 @@
-class Etel:
+from abc import ABC, abstractmethod
 
-    def __init__(self):
-        self._nev = ""
-        self._ar = 0
+class Bicikli(ABC):
+    def __init__(self, tipus, ar, allapot):
+        self.tipus = tipus
+        self.ar = ar
+        self.allapot = allapot
 
-    @property
-    def ar(self) -> int:
-        return self._ar
+    @abstractmethod
+    def bicikli_informacio(self):
+        pass
 
-    @ar.setter
-    def ar(self, ar: int):
-        if ar < 0 or ar > 100000:
-            print("Nem megfelelő ár")
+class OrszagutiBicikli(Bicikli):
+    def __init__(self, tipus, ar, allapot, sebesseg):
+        super().__init__(tipus, ar, allapot)
+        self.sebesseg = sebesseg
+
+    def bicikli_informacio(self):
+        return f"Országúti bicikli - Sebesség: {self.sebesseg} km/h"
+
+class HegyiBicikli(Bicikli):
+    def __init__(self, tipus, ar, allapot, fokozatok):
+        super().__init__(tipus, ar, allapot)
+        self.fokozatok = fokozatok
+
+    def bicikli_informacio(self):
+        return f"Hegyi bicikli - Fokozatok: {self.fokozatok}"
+
+class Kolcsonzo:
+    def __init__(self, nev):
+        self.nev = nev
+        self.biciklik = []
+
+    def bicikli_hozzaadasa(self, bicikli):
+        self.biciklik.append(bicikli)
+
+    def bicikli_torlese(self, bicikli):
+        self.biciklik.remove(bicikli)
+
+    def biciklik_listazasa(self):
+        for bicikli in self.biciklik:
+            print(bicikli.bicikli_informacio())
+from datetime import datetime
+
+class Kolcsonzes:
+    def __init__(self, bicikli, datum):
+        self.bicikli = bicikli
+        self.datum = datum
+
+    def kolcsonzes_lemondasa(self):
+        if self.datum >= datetime.now().date():
+            print("A kölcsönzés lemondása sikeres.")
         else:
-            self._ar = ar
+            print("A kölcsönzés már nem mondható le.")
 
-    @property
-    def nev(self) -> str:
-        return self._nev
+    def kolcsonzes_informacio(self):
+        print(f"Bicikli: {self.bicikli.bicikli_informacio()}")
+        print(f"Dátum: {self.datum}")
 
-    @nev.setter
-    def nev(self, ujnev):
-        self._nev = ujnev
+def main():
+    kolcsonzo = Kolcsonzo("Kis Pista")
 
+    orszaguti_bicikli = OrszagutiBicikli("Országúti", 1000, "Új", 30)
+    hegyi_bicikli = HegyiBicikli("Hegyi", 800, "Használt", 21)
 
-class Restaurant:
+    kolcsonzo.bicikli_hozzaadasa(orszaguti_bicikli)
+    kolcsonzo.bicikli_hozzaadasa(hegyi_bicikli)
 
-    def __init__(self, menuitems: [Etel], etteremnev: str):
-        self.menuitems = menuitems
-        self.etteremnev = etteremnev
+    print("Válasszon műveletet:")
+    print("1. Biciklik listázása")
+    print("2. Bicikli kölcsönzése")
+    print("3. Kölcsönzés lemondása")
 
-    def __str__(self):
-        return f"Az étterem neve {self.etteremnev}"
+    muvelet = input("Művelet kiválasztása: ")
 
-    def __add__(self, other):
-        if isinstance(other, Etel):
-            self.menuitems.append(other)
-        else:
-            print("Nem Étel")
+    if muvelet == "1":
+        kolcsonzo.biciklik_listazasa()
+    elif muvelet == "2":
+        bicikli_index = int(input("Válasszon biciklit (1. Országúti vagy 2. Hegyi ): "))
+        datum = input("Adja meg a kölcsönzés dátumát (YYYY-MM-DD): ")
+        bicikli = kolcsonzo.biciklik[bicikli_index - 1]
+        kolcsonzes = Kolcsonzes(bicikli, datetime.strptime(datum, "%Y-%m-%d").date())
+        kolcsonzes.kolcsonzes_informacio()
+    elif muvelet == "3":
+        datum = input("Adja meg a kölcsönzés dátumát (YYYY-MM-DD): ")
+        kolcsonzes = Kolcsonzes(None, datetime.strptime(datum, "%Y-%m-%d").date())
+        kolcsonzes.kolcsonzes_lemondasa()
+    else:
+        print("Érvénytelen művelet.")
 
-    def getmenuitems(self):
-        for menuitem in self.menuitems:
-            print(f"{menuitem.nev}.................{menuitem.ar} Ft")
-
-
-my_restaurant = Restaurant([], "Kisbojtár")
-my_restaurant.getmenuitems()
-
-for i in range(2):
-    etel_neve = input("Add meg az étel nevét: ")
-    etel_ara = int(input("Add meg az étel árát: "))
-    etel_uj = Etel()
-    etel_uj.nev = etel_neve
-    etel_uj.ar = etel_ara
-    my_restaurant + etel_uj
-
-
-my_restaurant.getmenuitems()
-
-print(my_restaurant)
+if __name__ == "__main__":
+    main()
