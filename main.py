@@ -1,16 +1,15 @@
-# This is a sample Python script.
+class Etel:
+    def __init__(self,nev,ar):
+        self.nev = nev
+        self.ar = ar
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+class Restaurant:
+    def __init__(self, menuitems, etteremnev):
+        self.menuitems = menuitems
+        self.etteremnev = etteremnev
+    def __str__(self):
+        return f"Az étterem neve {self.etteremnev}"
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+my_restaurant = Restaurant(menuitems: [], etteremnev: "kisbojtár")
+print(my_restaurant)
+my_etel = Etel(nev:"leves", ar: 300)
