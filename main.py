@@ -48,7 +48,7 @@ class Kolcsonzo:
 orszaguti_bicikli = OrszagutiBicikli(tipus="Országúti", ar=800, allapot="Új")
 hegyi_bicikli = HegyiBicikli(tipus="Hegyi", ar=1000, allapot="Használt")
 
-kolcsonzo = Kolcsonzo(nev="BikeRent")
+kolcsonzo = Kolcsonzo(nev="Kerékpárkölcsönző kft.")
 kolcsonzo.add_bicikli(orszaguti_bicikli)
 kolcsonzo.add_bicikli(hegyi_bicikli)
 
